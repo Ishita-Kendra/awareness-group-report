@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Awareness Group — CMO Weekly Report</title>
+<style>
+  :root {
+    --blue: #1F497D;
+    --blue-light: #E7EEF8;
+    --accent: #2E75B6;
+    --gold: #B8860B;
+    --gold-light: #FFF8E7;
+    --green: #1a7a4a;
+    --border: #D0DCEC;
+    --text: #1a1a2e;
+    --muted: #6B7280;
+    --bg: #F4F7FC;
+    --card: #fff;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ─────────────────────────────────────────────────── */
+  .app-header {
+    background: linear-gradient(135deg, var(--blue) 0%, #2E5FA3 100%);
+    color: #fff;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 12px rgba(31,73,125,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-title { display: flex; flex-direction: column; gap: 2px; }
+  .header-title h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.5px; }
+  .header-title span { font-size: 0.78rem; opacity: 0.75; }
+  .header-actions { display: flex; gap: 10px; }
+
+  /* ── BUTTONS ─────────────────────────────────────────────────── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 18px;
+    border-radius: 7px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover:not(:disabled) { background: #1a5fa0; }
+  .btn-download { background: var(--green); color: #fff; }
+  .btn-download:hover:not(:disabled) { background: #155e39; }
+  .btn-ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+  .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.25); }
+  .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+  /* ── LAYOUT ──────────────────────────────────────────────────── */
+  .container { max-width: 900px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* ── API KEY BANNER ──────────────────────────────────────────── */
+  .api-banner {
+    background: var(--gold-light);
+    border: 1px solid #e8c96a;
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .api-banner label { font-size: 0.85rem; font-weight: 600; color: var(--gold); white-space: nowrap; }
+  .api-banner input {
+    flex: 1;
+    min-width: 240px;
+    padding: 7px 12px;
+    border: 1px solid #e8c96a;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    background: #fffdf0;
+    font-family: monospace;
+  }
+  .api-banner .api-note { font-size: 0.75rem; color: var(--muted); width: 100%; }
+
+  /* ── CARDS ───────────────────────────────────────────────────── */
+  .section-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 18px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .card-header {
+    background: var(--blue-light);
+    padding: 11px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-num {
+    background: var(--blue);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-title { font-size: 0.92rem; font-weight: 700; color: var(--blue); flex: 1; }
+  .card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── FIELDS ──────────────────────────────────────────────────── */
+  .field-group { display: flex; flex-direction: column; gap: 4px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  label.field-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+  input[type="text"], textarea, input[type="date"] {
+    width: 100%;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.88rem;
+    color: var(--text);
+    font-family: inherit;
+    background: #fafcff;
+    transition: border 0.15s, box-shadow 0.15s;
+    resize: vertical;
+  }
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(46,117,182,0.12);
+    background: #fff;
+  }
+  textarea { min-height: 68px; }
+  textarea.tall { min-height: 90px; }
+  .hint { font-size: 0.72rem; color: #9CA3AF; margin-top: 2px; }
+
+  /* ── OBJECTIVE BLOCK ─────────────────────────────────────────── */
+  .obj-block {
+    background: #F8FAFD;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .obj-label { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+  /* ── CMO COMMENT CARD ────────────────────────────────────────── */
+  .cmo-card .card-header { background: var(--gold-light); border-bottom-color: #e8c96a; }
+  .cmo-card .card-num { background: var(--gold); }
+  .cmo-card .card-title { color: var(--gold); }
+  .cmo-card textarea { background: #fffdf5; border-color: #e8c96a; }
+  .cmo-card textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.12); }
+
+  /* ── SPINNER ─────────────────────────────────────────────────── */
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  .loading .spinner { display: inline-block; }
+  .loading .btn-icon { display: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── TOAST ───────────────────────────────────────────────────── */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+  .toast {
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    animation: slideIn 0.25s ease;
+    max-width: 340px;
+  }
+  .toast.success { background: var(--green); }
+  .toast.error { background: #DC2626; }
+  .toast.info { background: var(--accent); }
+  @keyframes slideIn { from { transform: translateX(60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  /* ── BOTTOM BAR ──────────────────────────────────────────────── */
+  .bottom-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    z-index: 99;
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="header-title">
+    <h1>The Awareness Group — CMO Weekly Report</h1>
+    <span>Type short notes → AI expands → Download Word doc</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-ghost btn-sm" onclick="clearAll()">Clear All</button>
+    <button class="btn btn-ghost" id="autoFillBtn" onclick="autoFill()">
+      <span class="btn-icon">✦</span>
+      <span class="spinner"></span>
+      Auto-Fill with AI
+    </button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- API KEY -->
+  <div class="api-banner">
+    <label>🔑 Anthropic API Key</label>
+    <input type="password" id="apiKey" placeholder="sk-ant-..." />
+    <div class="api-note">Your key is used only in this browser session and sent to your local server — never stored.</div>
+  </div>
+
+  <!-- SECTION 0: META -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">◈</div>
+      <span class="card-title">Report Header</span>
+    </div>
+    <div class="card-body">
+      <div class="field-row-3">
+        <div class="field-group">
+          <label class="field-label">Executive Name</label>
+          <input type="text" id="executive" placeholder="e.g. Jane Smith" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Week Ending</label>
+          <input type="text" id="week_ending" placeholder="e.g. June 13, 2025" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Reporting To</label>
+          <input type="text" id="reporting_to" placeholder="e.g. CEO" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">1</div>
+      <span class="card-title">Marketing Executive Summary</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Short Notes → AI will expand</label>
+        <textarea class="tall" id="executive_summary" placeholder="e.g. Q2 pipeline up 22%, brand awareness campaign launched, new agency onboarded, email list hit 50k..."></textarea>
+        <div class="hint">Bullet points or fragments are fine — AI will write polished prose.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">2</div>
+      <span class="card-title">Marketing Objectives (Planned vs. Completed)</span>
+    </div>
+    <div class="card-body">
+      <div class="obj-block">
+        <div class="obj-label">Objective 1</div>
+        <div class="field-row" style="margin-bottom:10px">
+          <div class="field-group">
+            <label class="field-label">Planned</label>
+            <textarea id="obj1_planned" placeholder="e.g. Launch LinkedIn ad campaign, 500 leads goal"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Completed</label>
+            <textarea id="obj1_completed" placeholder="e.g. Campaign live, 420 leads so far"></textarea>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Status</label>
+          <input type="text" id="obj1_status" placeholder="e.g. On Track — 84% of goal reached" />
+        </div>
+      </div>
+      <div class="obj-block">
+        <div class="obj-label">Objective 2</div>
+        <div class="field-row" style="margin-bottom:10px">
+          <div class="field-group">
+            <label class="field-label">Planned</label>
+            <textarea id="obj2_planned" placeholder="e.g. Publish 3 thought leadership articles"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Completed</label>
+            <textarea id="obj2_completed" placeholder="e.g. 2 published, 1 in final review"></textarea>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Status</label>
+          <input type="text" id="obj2_status" placeholder="e.g. At Risk — 1 article pending approval" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">3</div>
+      <span class="card-title">Key Marketing Metrics & KPIs</span>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Pipeline Generated</label>
+          <input type="text" id="pipeline_generated" placeholder="e.g. $1.2M, up 22% WoW" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Lead Volume / CAC</label>
+          <input type="text" id="lead_volume_cac" placeholder="e.g. 340 MQLs, CAC $180" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Conversion Rates</label>
+          <input type="text" id="conversion_rates" placeholder="e.g. MQL→SQL 28%, demo→close 18%" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Campaign Performance</label>
+          <input type="text" id="campaign_performance" placeholder="e.g. Google Ads CTR 4.2%, ROAS 3.1x" />
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Brand Engagement</label>
+          <input type="text" id="brand_engagement" placeholder="e.g. LinkedIn +12% impressions, ER 3.8%" />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Email / List Activation</label>
+          <input type="text" id="email_activation" placeholder="e.g. Open 42%, CTR 6.1%, list 50k" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Content Output</label>
+        <input type="text" id="content_output" placeholder="e.g. 2 blogs, 1 case study, 8 social posts, 1 webinar" />
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">4</div>
+      <span class="card-title">Major Wins & Deliverables</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">List wins (one per line or bullet points)</label>
+        <textarea class="tall" id="major_wins" placeholder="- Closed enterprise partnership with Acme Corp&#10;- Surpassed Q2 pipeline target by 15%&#10;- Launched new product page, 2k visits in 48hrs"></textarea>
+        <div class="hint">Each line becomes a bullet point in the report. AI will polish the language.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">5</div>
+      <span class="card-title">Strategic Marketing Initiatives</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Initiative Name</label>
+        <input type="text" id="initiative_name" placeholder="e.g. ABM Program Launch" />
+      </div>
+      <div class="field-row">
+        <div class="field-group">
+          <label class="field-label">Progress This Week</label>
+          <textarea id="initiative_progress" placeholder="e.g. Target account list finalized, 3 pilots started"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Blockers</label>
+          <textarea id="initiative_blockers" placeholder="e.g. Need sales sign-off on ICP criteria"></textarea>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Next Milestone + ETA</label>
+        <input type="text" id="initiative_milestone" placeholder="e.g. Full rollout to 50 accounts — June 30" />
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">6</div>
+      <span class="card-title">Cross-Functional Alignment</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Sales Enablement Delivered</label>
+        <textarea id="sales_enablement" placeholder="e.g. New battle cards sent to 12 AEs, objection handling doc updated"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Product Marketing Updates</label>
+        <textarea id="product_marketing" placeholder="e.g. Feature launch messaging finalized, coordinated with product on v2.3 release notes"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Partnerships / PR</label>
+        <textarea id="partnerships_pr" placeholder="e.g. Forbes mention in AI roundup, partner co-marketing MOU signed with XYZ"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">7</div>
+      <span class="card-title">CEO Decisions / Support Needed</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">What do you need from the CEO?</label>
+        <textarea class="tall" id="ceo_decisions" placeholder="e.g. Approve $50k incremental budget for H2 brand push, need intro to Acme CMO for co-marketing deal"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section-card">
+    <div class="card-header">
+      <div class="card-num">8</div>
+      <span class="card-title">Priorities for Next Week</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">List priorities (one per line — becomes numbered list)</label>
+        <textarea class="tall" id="priorities_next_week" placeholder="- Finalize Q3 campaign strategy&#10;- Close 2 enterprise deals pipeline&#10;- Launch influencer program pilot&#10;- Review agency contract renewal"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 9: CMO COMMENT (new) -->
+  <div class="section-card cmo-card">
+    <div class="card-header">
+      <div class="card-num">9</div>
+      <span class="card-title">CMO Comments & Strategic Notes</span>
+    </div>
+    <div class="card-body">
+      <div class="field-group">
+        <label class="field-label">Personal CMO note / strategic commentary</label>
+        <textarea class="tall" id="cmo_comment" placeholder="e.g. Concerned about CAC trending up — need to pressure-test channel mix. Excited about ABM traction. Flagging potential M&A comms need if deal closes next week."></textarea>
+        <div class="hint">This appears as a highlighted box in the report, attributed to the CMO. AI will refine the language.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom-bar">
+  <button class="btn btn-primary" id="autoFillBtn2" onclick="autoFill()">
+    <span class="btn-icon">✦</span>
+    <span class="spinner"></span>
+    Auto-Fill with AI
+  </button>
+  <button class="btn btn-download" onclick="downloadReport()">
+    ⬇ Download Word Report
+  </button>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  const FIELD_IDS = [
+    'executive','week_ending','reporting_to',
+    'executive_summary',
+    'obj1_planned','obj1_completed','obj1_status',
+    'obj2_planned','obj2_completed','obj2_status',
+    'pipeline_generated','lead_volume_cac','conversion_rates',
+    'campaign_performance','brand_engagement','email_activation','content_output',
+    'major_wins',
+    'initiative_name','initiative_progress','initiative_blockers','initiative_milestone',
+    'sales_enablement','product_marketing','partnerships_pr',
+    'ceo_decisions',
+    'priorities_next_week',
+    'cmo_comment'
+  ];
+
+  // AI-expanded fields (skip plain meta fields)
+  const AI_FIELDS = FIELD_IDS.filter(f => !['executive','week_ending','reporting_to'].includes(f));
+
+  function getFormData() {
+    const data = {};
+    FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      data[id] = el ? el.value : '';
+    });
+    return data;
+  }
+
+  function setFormData(data) {
+    Object.entries(data).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && val) el.value = val;
+    });
+  }
+
+  function clearAll() {
+    if (!confirm('Clear all fields?')) return;
+    FIELD_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    toast('All fields cleared.', 'info');
+  }
+
+  function setLoading(loading) {
+    ['autoFillBtn','autoFillBtn2'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.disabled = loading;
+      btn.classList.toggle('loading', loading);
+    });
+  }
+
+  async function autoFill() {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    if (!apiKey) { toast('Please enter your Anthropic API Key above.', 'error'); return; }
+
+    const fields = getFormData();
+    // Check at least one AI field has content
+    const hasContent = AI_FIELDS.some(f => fields[f] && fields[f].trim());
+    if (!hasContent) { toast('Please fill in at least one field before auto-filling.', 'error'); return; }
+
+    setLoading(true);
+    toast('Expanding your notes with AI…', 'info');
+
+    try {
+      const res = await fetch('/api/autofill', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+        body: JSON.stringify({ fields, api_key: apiKey })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Server error ${res.status}`);
+      }
+      const result = await res.json();
+      setFormData(result);
+      toast('AI auto-fill complete! Review and download.', 'success');
+    } catch (e) {
+      toast('Auto-fill failed: ' + e.message, 'error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function downloadReport() {
+    const data = getFormData();
+    toast('Generating Word document…', 'info');
+    try {
+      const res = await fetch('/api/download', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error('Download failed');
+      const blob = await res.blob();
+      const week = (data.week_ending || 'report').replace(/[\/\s]/g, '_');
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `CMO_Weekly_Report_${week}.docx`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('Report downloaded!', 'success');
+    } catch (e) {
+      toast('Download error: ' + e.message, 'error');
+    }
+  }
+
+  function toast(msg, type = 'info') {
+    const c = document.getElementById('toastContainer');
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.textContent = msg;
+    c.appendChild(el);
+    setTimeout(() => el.remove(), 3500);
+  }
+
+  // Set today's date as default for week ending
+  const today = new Date();
+  const fmt = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  document.getElementById('week_ending').value = fmt;
+</script>
+</body>
+</html>
