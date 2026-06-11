@@ -16,12 +16,12 @@ CORS(app)
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
-def expand_with_ai(section_name, short_notes, context="", api_key=None):
+def expand_with_ai(section_name, short_notes, context=""):
     """Use Claude to expand short notes into professional CMO report language."""
     if not short_notes or not short_notes.strip():
         return ""
 
-    client = anthropic.Anthropic(api_key=api_key or ANTHROPIC_API_KEY)
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     system = (
         "You are a Chief Marketing Officer writing a professional weekly marketing report. "
@@ -273,60 +273,21 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/autofill", methods=["POST"])
-def autofill():
+@app.route("/api/expand-summary", methods=["POST"])
+def expand_summary():
+    if not ANTHROPIC_API_KEY:
+        return jsonify({"error": "ANTHROPIC_API_KEY not configured on the server"}), 500
+
     payload = request.json or {}
-    # Accept API key from request body or header, fall back to env
-    api_key = (
-        payload.get("api_key")
-        or request.headers.get("X-API-Key")
-        or ANTHROPIC_API_KEY
-    )
-    if not api_key:
-        return jsonify({"error": "No Anthropic API key provided"}), 400
+    text = (payload.get("text") or "").strip()
+    if not text:
+        return jsonify({"error": "No text provided"}), 400
 
-    fields = payload.get("fields", {})
-    results = {}
-
-    expand_map = {
-        "executive_summary": "Marketing Executive Summary",
-        "obj1_planned": "Objective 1 - Planned",
-        "obj1_completed": "Objective 1 - Completed",
-        "obj1_status": "Objective 1 - Status (e.g. On Track / At Risk / Done)",
-        "obj2_planned": "Objective 2 - Planned",
-        "obj2_completed": "Objective 2 - Completed",
-        "obj2_status": "Objective 2 - Status (e.g. On Track / At Risk / Done)",
-        "pipeline_generated": "Pipeline Generated (dollar value or % change)",
-        "lead_volume_cac": "Lead Volume and Customer Acquisition Cost",
-        "conversion_rates": "Conversion Rates (MQL to SQL, lead to close, etc.)",
-        "campaign_performance": "Campaign Performance Summary",
-        "brand_engagement": "Brand Engagement Metrics (social, share of voice, etc.)",
-        "email_activation": "Email and List Activation (open rates, CTR, list growth)",
-        "content_output": "Content Output (pieces published, reach, etc.)",
-        "major_wins": "Major Wins & Deliverables (will be used as bullet points)",
-        "initiative_name": "Strategic Initiative Name",
-        "initiative_progress": "Initiative Progress This Week",
-        "initiative_blockers": "Initiative Blockers",
-        "initiative_milestone": "Next Milestone and ETA",
-        "sales_enablement": "Sales Enablement Delivered",
-        "product_marketing": "Product Marketing Updates",
-        "partnerships_pr": "Partnerships and PR activity",
-        "ceo_decisions": "CEO Decisions or Support Needed",
-        "priorities_next_week": "Priorities for Next Week (will be a numbered list)",
-        "cmo_comment": "CMO Strategic Comment or Personal Notes",
-    }
-
-    for field_key, section_label in expand_map.items():
-        raw = fields.get(field_key, "").strip()
-        if raw:
-            try:
-                results[field_key] = expand_with_ai(section_label, raw, api_key=api_key)
-            except Exception as e:
-                results[field_key] = raw  # fallback to raw on error
-        else:
-            results[field_key] = ""
-
-    return jsonify(results)
+    try:
+        expanded = expand_with_ai("Marketing Executive Summary", text)
+        return jsonify({"expanded": expanded})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route("/api/download", methods=["POST"])
