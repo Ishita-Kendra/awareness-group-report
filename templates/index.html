@@ -20,139 +20,70 @@
     --radius: 10px;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
   .app-header {
     background: linear-gradient(135deg, var(--blue) 0%, #2E5FA3 100%);
     color: #fff;
-    padding: 20px 32px;
+    padding: 18px 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 2px 12px rgba(31,73,125,0.25);
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky; top: 0; z-index: 100;
   }
-  .header-title h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.5px; }
-  .header-title span { font-size: 0.78rem; opacity: 0.75; }
+  .header-title h1 { font-size: 1.25rem; font-weight: 700; }
+  .header-title span { font-size: 0.76rem; opacity: 0.7; }
 
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    border-radius: 7px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: all 0.18s;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 8px; font-size: 0.875rem;
+    font-weight: 600; cursor: pointer; border: none; transition: all 0.18s; white-space: nowrap;
   }
-  .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-  .btn-ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-  .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.25); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--accent); color: #fff; font-size: 1rem; padding: 12px 28px; }
+  .btn-primary:hover:not(:disabled) { background: #1a5fa0; }
   .btn-download { background: var(--green); color: #fff; }
   .btn-download:hover:not(:disabled) { background: #155e39; }
-  .btn-expand {
-    background: var(--blue-light);
-    color: var(--blue);
-    border: 1px solid var(--border);
-    padding: 6px 14px;
-    font-size: 0.8rem;
-    border-radius: 6px;
-    margin-top: 6px;
-  }
-  .btn-expand:hover:not(:disabled) { background: #d4e3f5; }
-  .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+  .btn-ghost { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+  .btn-ghost:hover:not(:disabled) { background: rgba(255,255,255,0.25); }
+  .btn-sm { padding: 6px 13px; font-size: 0.8rem; }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 28px 20px 80px; }
+  .container { max-width: 860px; margin: 0 auto; padding: 28px 20px 100px; }
 
-  .section-card {
+  /* ── INPUT ZONE ── */
+  .input-zone {
     background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 18px;
-    overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 16px rgba(46,117,182,0.1);
   }
-  .card-header {
-    background: var(--blue-light);
-    padding: 11px 18px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border-bottom: 1px solid var(--border);
+  .input-zone-title {
+    font-size: 1rem; font-weight: 700; color: var(--blue);
+    margin-bottom: 4px;
   }
-  .card-num {
-    background: var(--blue);
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    width: 22px; height: 22px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
+  .input-zone-sub {
+    font-size: 0.8rem; color: var(--muted); margin-bottom: 14px;
   }
-  .card-title { font-size: 0.92rem; font-weight: 700; color: var(--blue); flex: 1; }
-  .card-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 12px; }
-
-  .field-group { display: flex; flex-direction: column; gap: 4px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  label.field-label {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  input[type="text"], textarea {
-    width: 100%;
-    padding: 8px 11px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-size: 0.88rem;
-    color: var(--text);
-    font-family: inherit;
-    background: #fafcff;
+  .dump-area {
+    width: 100%; min-height: 180px;
+    padding: 14px; border: 1px solid var(--border);
+    border-radius: 8px; font-size: 0.92rem;
+    font-family: inherit; color: var(--text);
+    background: #fafcff; resize: vertical; line-height: 1.6;
     transition: border 0.15s, box-shadow 0.15s;
-    resize: vertical;
   }
-  input:focus, textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(46,117,182,0.12);
-    background: #fff;
-  }
-  textarea { min-height: 68px; }
-  textarea.tall { min-height: 90px; }
-  .hint { font-size: 0.72rem; color: #9CA3AF; margin-top: 2px; }
+  .dump-area:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(46,117,182,0.12); background: #fff; }
+  .input-zone-actions { display: flex; align-items: center; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  .char-hint { font-size: 0.75rem; color: var(--muted); margin-left: auto; }
 
-  .obj-block {
-    background: #F8FAFD;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 14px;
-  }
-  .obj-label { font-size: 0.82rem; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
-
-  .cmo-card .card-header { background: var(--gold-light); border-bottom-color: #e8c96a; }
-  .cmo-card .card-num { background: var(--gold); }
-  .cmo-card .card-title { color: var(--gold); }
-  .cmo-card textarea { background: #fffdf5; border-color: #e8c96a; }
-  .cmo-card textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.12); }
-
+  /* ── SPINNER ── */
   .spinner {
-    width: 14px; height: 14px;
-    border: 2px solid rgba(31,73,125,0.3);
-    border-top-color: var(--blue);
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
     border-radius: 50%;
     animation: spin 0.7s linear infinite;
     display: none;
@@ -161,33 +92,83 @@
   .loading .btn-icon { display: none; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
-  .toast {
-    padding: 12px 18px;
-    border-radius: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-    animation: slideIn 0.25s ease;
-    max-width: 340px;
+  /* ── FILLED INDICATOR ── */
+  .filled-badge {
+    display: none;
+    background: #dcf5e7; color: var(--green);
+    border: 1px solid #a3e0bc;
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 0.78rem; font-weight: 600;
   }
+  .filled-badge.visible { display: inline-flex; align-items: center; gap: 5px; }
+
+  /* ── REVIEW SECTION ── */
+  .review-section {
+    display: none;
+  }
+  .review-section.visible { display: block; }
+  .review-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+  }
+  .review-header h2 { font-size: 1rem; font-weight: 700; color: var(--blue); }
+  .review-hint { font-size: 0.78rem; color: var(--muted); }
+
+  .section-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); margin-bottom: 14px; overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .card-header {
+    background: var(--blue-light); padding: 9px 16px;
+    display: flex; align-items: center; gap: 9px;
+    border-bottom: 1px solid var(--border); cursor: pointer;
+    user-select: none;
+  }
+  .card-header:hover { background: #dce8f5; }
+  .card-num {
+    background: var(--blue); color: #fff; font-size: 0.72rem; font-weight: 700;
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .card-title { font-size: 0.88rem; font-weight: 700; color: var(--blue); flex: 1; }
+  .card-toggle { color: var(--muted); font-size: 0.8rem; transition: transform 0.2s; }
+  .card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; }
+  .card-body.collapsed { display: none; }
+
+  .field-group { display: flex; flex-direction: column; gap: 3px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+  label.field-label { font-size: 0.72rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  input[type="text"], textarea {
+    width: 100%; padding: 7px 10px; border: 1px solid var(--border);
+    border-radius: 6px; font-size: 0.85rem; color: var(--text);
+    font-family: inherit; background: #fafcff; transition: border 0.15s; resize: vertical;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); background: #fff; box-shadow: 0 0 0 2px rgba(46,117,182,0.1); }
+  textarea { min-height: 58px; }
+
+  .obj-block { background: #F8FAFD; border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; }
+  .obj-label { font-size: 0.78rem; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+
+  .cmo-card .card-header { background: var(--gold-light); border-bottom-color: #e8c96a; }
+  .cmo-card .card-num { background: var(--gold); }
+  .cmo-card .card-title { color: var(--gold); }
+
+  /* ── TOAST ── */
+  .toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+  .toast { padding: 11px 17px; border-radius: 8px; font-size: 0.85rem; font-weight: 500; color: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.2); animation: slideIn 0.25s ease; max-width: 320px; }
   .toast.success { background: var(--green); }
   .toast.error { background: #DC2626; }
   .toast.info { background: var(--accent); }
-  @keyframes slideIn { from { transform: translateX(60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
+  /* ── BOTTOM BAR ── */
   .bottom-bar {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    background: var(--card);
-    border-top: 1px solid var(--border);
-    padding: 12px 24px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
-    z-index: 99;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--card); border-top: 1px solid var(--border);
+    padding: 12px 24px; display: flex; justify-content: flex-end; gap: 10px;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.08); z-index: 99;
   }
 </style>
 </head>
@@ -196,359 +177,323 @@
 <header class="app-header">
   <div class="header-title">
     <h1>The Awareness Group — CMO Weekly Report</h1>
-    <span>Fill in your updates and download as a Word document</span>
+    <span>Dump your notes → AI fills the report → Download Word doc</span>
   </div>
-  <div>
-    <button class="btn btn-ghost btn-sm" onclick="clearAll()">Clear All</button>
-  </div>
+  <button class="btn btn-ghost btn-sm" onclick="resetAll()">Start Over</button>
 </header>
 
 <div class="container">
 
-  <!-- REPORT HEADER -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">◈</div>
-      <span class="card-title">Report Header</span>
-    </div>
-    <div class="card-body">
-      <div class="field-row-3">
-        <div class="field-group">
-          <label class="field-label">Executive Name</label>
-          <input type="text" id="executive" placeholder="e.g. Jane Smith" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">Week Ending</label>
-          <input type="text" id="week_ending" placeholder="e.g. June 13, 2025" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">Reporting To</label>
-          <input type="text" id="reporting_to" placeholder="e.g. CEO" />
-        </div>
+  <!-- DUMP ZONE -->
+  <div class="input-zone">
+    <div class="input-zone-title">What happened this week?</div>
+    <div class="input-zone-sub">Write anything — bullet points, fragments, numbers. AI will map it across the report.</div>
+    <textarea class="dump-area" id="weekDump" placeholder="e.g.
+• Pipeline hit $1.2M, up 22% from last week
+• LinkedIn campaign live, 420 leads so far — goal was 500
+• Published 2 blog posts, 1 case study delayed
+• ABM pilot: 50 accounts identified, waiting on sales sign-off
+• Forbes mentioned us in AI roundup
+• Need CEO to approve $50k brand budget for H2
+• Next week: finalise Q3 strategy, close Acme deal, launch influencer pilot
+• CAC trending up — watching closely"></textarea>
+    <div class="input-zone-actions">
+      <div>
+        <label style="font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;">Week Ending</label><br>
+        <input type="text" id="week_ending" style="width:180px;margin-top:4px" placeholder="e.g. June 13, 2025" />
       </div>
-    </div>
-  </div>
-
-  <!-- SECTION 1: EXECUTIVE SUMMARY -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">1</div>
-      <span class="card-title">Marketing Executive Summary</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <label class="field-label">Summary</label>
-        <textarea class="tall" id="executive_summary" placeholder="Type a few bullet points or short notes — e.g. Q2 pipeline up 22%, brand campaign launched, email list hit 50k..."></textarea>
-        <div class="hint">Type rough notes and click Expand to get a polished paragraph.</div>
-        <button class="btn btn-expand" id="expandBtn" onclick="expandSummary()">
+      <div>
+        <label style="font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;">Executive</label><br>
+        <input type="text" id="executive" style="width:180px;margin-top:4px" placeholder="Your name" />
+      </div>
+      <div>
+        <label style="font-size:0.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.4px;">Reporting To</label><br>
+        <input type="text" id="reporting_to" style="width:140px;margin-top:4px" placeholder="CEO" />
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:flex-end;gap:10px">
+        <span class="filled-badge" id="filledBadge">✓ Report filled</span>
+        <button class="btn btn-primary" id="fillBtn" onclick="fillReport()">
           <span class="btn-icon">✦</span>
           <span class="spinner"></span>
-          Expand with AI
+          Fill Report
         </button>
       </div>
     </div>
   </div>
 
-  <!-- SECTION 2: OBJECTIVES -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">2</div>
-      <span class="card-title">Marketing Objectives (Planned vs. Completed)</span>
+  <!-- REVIEW -->
+  <div class="review-section" id="reviewSection">
+    <div class="review-header">
+      <h2>Review & Edit</h2>
+      <span class="review-hint">AI has filled in the fields below. Edit anything before downloading.</span>
     </div>
-    <div class="card-body">
-      <div class="obj-block">
-        <div class="obj-label">Objective 1</div>
-        <div class="field-row" style="margin-bottom:10px">
-          <div class="field-group">
-            <label class="field-label">Planned</label>
-            <textarea id="obj1_planned" placeholder="What was planned"></textarea>
+
+    <!-- S1 Executive Summary -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">1</div>
+        <span class="card-title">Marketing Executive Summary</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field-group">
+          <textarea style="min-height:80px" id="executive_summary"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 Objectives -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">2</div>
+        <span class="card-title">Marketing Objectives (Planned vs. Completed)</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="obj-block">
+          <div class="obj-label">Objective 1</div>
+          <div class="field-row" style="margin-bottom:8px">
+            <div class="field-group"><label class="field-label">Planned</label><textarea id="obj1_planned"></textarea></div>
+            <div class="field-group"><label class="field-label">Completed</label><textarea id="obj1_completed"></textarea></div>
           </div>
-          <div class="field-group">
-            <label class="field-label">Completed</label>
-            <textarea id="obj1_completed" placeholder="What was completed"></textarea>
+          <div class="field-group"><label class="field-label">Status</label><input type="text" id="obj1_status" /></div>
+        </div>
+        <div class="obj-block">
+          <div class="obj-label">Objective 2</div>
+          <div class="field-row" style="margin-bottom:8px">
+            <div class="field-group"><label class="field-label">Planned</label><textarea id="obj2_planned"></textarea></div>
+            <div class="field-group"><label class="field-label">Completed</label><textarea id="obj2_completed"></textarea></div>
           </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Status</label>
-          <input type="text" id="obj1_status" placeholder="e.g. On Track / At Risk / Done" />
-        </div>
-      </div>
-      <div class="obj-block">
-        <div class="obj-label">Objective 2</div>
-        <div class="field-row" style="margin-bottom:10px">
-          <div class="field-group">
-            <label class="field-label">Planned</label>
-            <textarea id="obj2_planned" placeholder="What was planned"></textarea>
-          </div>
-          <div class="field-group">
-            <label class="field-label">Completed</label>
-            <textarea id="obj2_completed" placeholder="What was completed"></textarea>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Status</label>
-          <input type="text" id="obj2_status" placeholder="e.g. On Track / At Risk / Done" />
+          <div class="field-group"><label class="field-label">Status</label><input type="text" id="obj2_status" /></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 3: KPIs -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">3</div>
-      <span class="card-title">Key Marketing Metrics & KPIs</span>
-    </div>
-    <div class="card-body">
-      <div class="field-row">
-        <div class="field-group">
-          <label class="field-label">Pipeline Generated</label>
-          <input type="text" id="pipeline_generated" placeholder="e.g. $1.2M, up 22% WoW" />
-        </div>
-        <div class="field-group">
-          <label class="field-label">Lead Volume / CAC</label>
-          <input type="text" id="lead_volume_cac" placeholder="e.g. 340 MQLs, CAC $180" />
-        </div>
+    <!-- S3 KPIs -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">3</div>
+        <span class="card-title">Key Marketing Metrics & KPIs</span>
+        <span class="card-toggle">▾</span>
       </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label class="field-label">Conversion Rates</label>
-          <input type="text" id="conversion_rates" placeholder="e.g. MQL→SQL 28%, demo→close 18%" />
+      <div class="card-body">
+        <div class="field-row">
+          <div class="field-group"><label class="field-label">Pipeline Generated</label><input type="text" id="pipeline_generated" /></div>
+          <div class="field-group"><label class="field-label">Lead Volume / CAC</label><input type="text" id="lead_volume_cac" /></div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Campaign Performance</label>
-          <input type="text" id="campaign_performance" placeholder="e.g. CTR 4.2%, ROAS 3.1x" />
+        <div class="field-row">
+          <div class="field-group"><label class="field-label">Conversion Rates</label><input type="text" id="conversion_rates" /></div>
+          <div class="field-group"><label class="field-label">Campaign Performance</label><input type="text" id="campaign_performance" /></div>
         </div>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label class="field-label">Brand Engagement</label>
-          <input type="text" id="brand_engagement" placeholder="e.g. LinkedIn +12%, ER 3.8%" />
+        <div class="field-row">
+          <div class="field-group"><label class="field-label">Brand Engagement</label><input type="text" id="brand_engagement" /></div>
+          <div class="field-group"><label class="field-label">Email / List Activation</label><input type="text" id="email_activation" /></div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Email / List Activation</label>
-          <input type="text" id="email_activation" placeholder="e.g. Open 42%, CTR 6.1%" />
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Content Output</label>
-        <input type="text" id="content_output" placeholder="e.g. 2 blogs, 1 case study, 8 social posts" />
+        <div class="field-group"><label class="field-label">Content Output</label><input type="text" id="content_output" /></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 4: MAJOR WINS -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">4</div>
-      <span class="card-title">Major Wins & Deliverables</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <label class="field-label">List wins (one per line)</label>
-        <textarea class="tall" id="major_wins" placeholder="Closed enterprise deal with Acme Corp&#10;Surpassed Q2 pipeline target by 15%&#10;Launched new product page, 2k visits in 48hrs"></textarea>
+    <!-- S4 Wins -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">4</div>
+        <span class="card-title">Major Wins & Deliverables</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field-group"><textarea style="min-height:80px" id="major_wins"></textarea></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 5: INITIATIVES -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">5</div>
-      <span class="card-title">Strategic Marketing Initiatives</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <label class="field-label">Initiative Name</label>
-        <input type="text" id="initiative_name" placeholder="e.g. ABM Program Launch" />
+    <!-- S5 Initiatives -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">5</div>
+        <span class="card-title">Strategic Marketing Initiatives</span>
+        <span class="card-toggle">▾</span>
       </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label class="field-label">Progress This Week</label>
-          <textarea id="initiative_progress" placeholder="What moved forward"></textarea>
+      <div class="card-body">
+        <div class="field-group"><label class="field-label">Initiative Name</label><input type="text" id="initiative_name" /></div>
+        <div class="field-row">
+          <div class="field-group"><label class="field-label">Progress This Week</label><textarea id="initiative_progress"></textarea></div>
+          <div class="field-group"><label class="field-label">Blockers</label><textarea id="initiative_blockers"></textarea></div>
         </div>
-        <div class="field-group">
-          <label class="field-label">Blockers</label>
-          <textarea id="initiative_blockers" placeholder="What is blocked"></textarea>
-        </div>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Next Milestone + ETA</label>
-        <input type="text" id="initiative_milestone" placeholder="e.g. Full rollout — June 30" />
+        <div class="field-group"><label class="field-label">Next Milestone + ETA</label><input type="text" id="initiative_milestone" /></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 6: CROSS-FUNCTIONAL -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">6</div>
-      <span class="card-title">Cross-Functional Alignment</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <label class="field-label">Sales Enablement Delivered</label>
-        <textarea id="sales_enablement" placeholder="e.g. New battle cards sent to 12 AEs"></textarea>
+    <!-- S6 Cross-Functional -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">6</div>
+        <span class="card-title">Cross-Functional Alignment</span>
+        <span class="card-toggle">▾</span>
       </div>
-      <div class="field-group">
-        <label class="field-label">Product Marketing Updates</label>
-        <textarea id="product_marketing" placeholder="e.g. v2.3 release notes finalised"></textarea>
-      </div>
-      <div class="field-group">
-        <label class="field-label">Partnerships / PR</label>
-        <textarea id="partnerships_pr" placeholder="e.g. Forbes mention, co-marketing MOU signed"></textarea>
+      <div class="card-body">
+        <div class="field-group"><label class="field-label">Sales Enablement Delivered</label><textarea id="sales_enablement"></textarea></div>
+        <div class="field-group"><label class="field-label">Product Marketing Updates</label><textarea id="product_marketing"></textarea></div>
+        <div class="field-group"><label class="field-label">Partnerships / PR</label><textarea id="partnerships_pr"></textarea></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 7: CEO DECISIONS -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">7</div>
-      <span class="card-title">CEO Decisions / Support Needed</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <textarea class="tall" id="ceo_decisions" placeholder="e.g. Approve $50k incremental budget for H2 brand push"></textarea>
+    <!-- S7 CEO -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">7</div>
+        <span class="card-title">CEO Decisions / Support Needed</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field-group"><textarea style="min-height:70px" id="ceo_decisions"></textarea></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 8: PRIORITIES -->
-  <div class="section-card">
-    <div class="card-header">
-      <div class="card-num">8</div>
-      <span class="card-title">Priorities for Next Week</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <label class="field-label">One priority per line</label>
-        <textarea class="tall" id="priorities_next_week" placeholder="Finalise Q3 campaign strategy&#10;Close 2 enterprise deals&#10;Launch influencer program pilot"></textarea>
+    <!-- S8 Priorities -->
+    <div class="section-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">8</div>
+        <span class="card-title">Priorities for Next Week</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field-group"><textarea style="min-height:80px" id="priorities_next_week"></textarea></div>
       </div>
     </div>
-  </div>
 
-  <!-- SECTION 9: CMO COMMENTS -->
-  <div class="section-card cmo-card">
-    <div class="card-header">
-      <div class="card-num">9</div>
-      <span class="card-title">CMO Comments & Strategic Notes</span>
-    </div>
-    <div class="card-body">
-      <div class="field-group">
-        <textarea class="tall" id="cmo_comment" placeholder="Personal strategic note — e.g. Concerned about CAC trend, excited about ABM traction, flagging M&A comms need..."></textarea>
+    <!-- S9 CMO Comments -->
+    <div class="section-card cmo-card">
+      <div class="card-header" onclick="toggleCard(this)">
+        <div class="card-num">9</div>
+        <span class="card-title">CMO Comments & Strategic Notes</span>
+        <span class="card-toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="field-group"><textarea style="min-height:70px;background:#fffdf5;border-color:#e8c96a" id="cmo_comment"></textarea></div>
       </div>
     </div>
-  </div>
 
+  </div><!-- /review-section -->
 </div>
 
 <!-- BOTTOM BAR -->
 <div class="bottom-bar">
-  <button class="btn btn-download" onclick="downloadReport()">
-    ⬇ Download Word Report
-  </button>
+  <button class="btn btn-download" onclick="downloadReport()">⬇ Download Word Report</button>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-  const FIELD_IDS = [
-    'executive','week_ending','reporting_to',
-    'executive_summary',
-    'obj1_planned','obj1_completed','obj1_status',
-    'obj2_planned','obj2_completed','obj2_status',
-    'pipeline_generated','lead_volume_cac','conversion_rates',
-    'campaign_performance','brand_engagement','email_activation','content_output',
-    'major_wins',
-    'initiative_name','initiative_progress','initiative_blockers','initiative_milestone',
-    'sales_enablement','product_marketing','partnerships_pr',
-    'ceo_decisions','priorities_next_week','cmo_comment'
-  ];
+const FIELDS = [
+  'executive','week_ending','reporting_to',
+  'executive_summary',
+  'obj1_planned','obj1_completed','obj1_status',
+  'obj2_planned','obj2_completed','obj2_status',
+  'pipeline_generated','lead_volume_cac','conversion_rates',
+  'campaign_performance','brand_engagement','email_activation','content_output',
+  'major_wins',
+  'initiative_name','initiative_progress','initiative_blockers','initiative_milestone',
+  'sales_enablement','product_marketing','partnerships_pr',
+  'ceo_decisions','priorities_next_week','cmo_comment'
+];
 
-  function getFormData() {
-    const data = {};
-    FIELD_IDS.forEach(id => {
-      const el = document.getElementById(id);
-      data[id] = el ? el.value : '';
+function getFormData() {
+  const d = {};
+  FIELDS.forEach(id => { const el = document.getElementById(id); d[id] = el ? el.value : ''; });
+  return d;
+}
+
+function setFormData(data) {
+  Object.entries(data).forEach(([id, val]) => {
+    const el = document.getElementById(id);
+    if (el && val) el.value = val;
+  });
+}
+
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.card-toggle');
+  body.classList.toggle('collapsed');
+  toggle.textContent = body.classList.contains('collapsed') ? '▸' : '▾';
+}
+
+async function fillReport() {
+  const dump = document.getElementById('weekDump').value.trim();
+  if (!dump) { toast('Paste your weekly notes first.', 'error'); return; }
+
+  const btn = document.getElementById('fillBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  toast('AI is reading your notes…', 'info');
+
+  try {
+    const res = await fetch('/api/fill-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        dump,
+        executive: document.getElementById('executive').value,
+        week_ending: document.getElementById('week_ending').value,
+        reporting_to: document.getElementById('reporting_to').value,
+      })
     });
-    return data;
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `Server error ${res.status}`);
+    }
+    const data = await res.json();
+    setFormData(data);
+    document.getElementById('reviewSection').classList.add('visible');
+    document.getElementById('filledBadge').classList.add('visible');
+    document.getElementById('reviewSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    toast('Report filled! Review and download.', 'success');
+  } catch (e) {
+    toast('Failed: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('loading');
   }
+}
 
-  function clearAll() {
-    if (!confirm('Clear all fields?')) return;
-    FIELD_IDS.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
+async function downloadReport() {
+  const data = getFormData();
+  toast('Generating Word document…', 'info');
+  try {
+    const res = await fetch('/api/download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
     });
-    toast('All fields cleared.', 'info');
+    if (!res.ok) throw new Error('Download failed');
+    const blob = await res.blob();
+    const week = (data.week_ending || 'report').replace(/[\/\s]/g, '_');
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url;
+    a.download = `CMO_Weekly_Report_${week}.docx`;
+    a.click(); URL.revokeObjectURL(url);
+    toast('Downloaded!', 'success');
+  } catch (e) {
+    toast('Error: ' + e.message, 'error');
   }
+}
 
-  async function expandSummary() {
-    const raw = document.getElementById('executive_summary').value.trim();
-    if (!raw) { toast('Type some notes in the Executive Summary field first.', 'error'); return; }
+function resetAll() {
+  if (!confirm('Start over and clear everything?')) return;
+  document.getElementById('weekDump').value = '';
+  FIELDS.forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('reviewSection').classList.remove('visible');
+  document.getElementById('filledBadge').classList.remove('visible');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-    const btn = document.getElementById('expandBtn');
-    btn.disabled = true;
-    btn.classList.add('loading');
+function toast(msg, type = 'info') {
+  const c = document.getElementById('toastContainer');
+  const el = document.createElement('div');
+  el.className = `toast ${type}`; el.textContent = msg;
+  c.appendChild(el); setTimeout(() => el.remove(), 3500);
+}
 
-    try {
-      const res = await fetch('/api/expand-summary', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: raw })
-      });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.error || `Server error ${res.status}`);
-      }
-      const { expanded } = await res.json();
-      document.getElementById('executive_summary').value = expanded;
-      toast('Summary expanded!', 'success');
-    } catch (e) {
-      toast('Expand failed: ' + e.message, 'error');
-    } finally {
-      btn.disabled = false;
-      btn.classList.remove('loading');
-    }
-  }
-
-  async function downloadReport() {
-    const data = getFormData();
-    toast('Generating Word document…', 'info');
-    try {
-      const res = await fetch('/api/download', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!res.ok) throw new Error('Download failed');
-      const blob = await res.blob();
-      const week = (data.week_ending || 'report').replace(/[\/\s]/g, '_');
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `CMO_Weekly_Report_${week}.docx`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast('Report downloaded!', 'success');
-    } catch (e) {
-      toast('Download error: ' + e.message, 'error');
-    }
-  }
-
-  function toast(msg, type = 'info') {
-    const c = document.getElementById('toastContainer');
-    const el = document.createElement('div');
-    el.className = `toast ${type}`;
-    el.textContent = msg;
-    c.appendChild(el);
-    setTimeout(() => el.remove(), 3500);
-  }
-
-  // Default week ending to today
-  const today = new Date();
-  document.getElementById('week_ending').value = today.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+// Default week ending
+document.getElementById('week_ending').value = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 </script>
 </body>
 </html>

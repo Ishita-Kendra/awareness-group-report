@@ -13,6 +13,16 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+# Load .env file next to this script if present
+_env_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(_env_path):
+    with open(_env_path) as _f:
+        for _line in _f:
+            _line = _line.strip()
+            if _line and not _line.startswith("#") and "=" in _line:
+                _k, _v = _line.split("=", 1)
+                os.environ.setdefault(_k.strip(), _v.strip())
+
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
 
 
@@ -273,21 +283,88 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/expand-summary", methods=["POST"])
-def expand_summary():
+@app.route("/api/fill-report", methods=["POST"])
+def fill_report():
     if not ANTHROPIC_API_KEY:
         return jsonify({"error": "ANTHROPIC_API_KEY not configured on the server"}), 500
 
     payload = request.json or {}
-    text = (payload.get("text") or "").strip()
-    if not text:
-        return jsonify({"error": "No text provided"}), 400
+    dump = (payload.get("dump") or "").strip()
+    if not dump:
+        return jsonify({"error": "No notes provided"}), 400
+
+    executive = payload.get("executive", "")
+    week_ending = payload.get("week_ending", "")
+    reporting_to = payload.get("reporting_to", "CEO")
+
+    system = """You are a Chief Marketing Officer's assistant.
+The CMO has given you raw weekly notes. Your job is to read them and populate every field of their weekly report JSON.
+
+Rules:
+- Write in polished, professional first-person CMO voice
+- Infer and expand naturally — if they say "pipeline up 22%" write a full professional sentence
+- If something isn't mentioned, leave that field as an empty string ""
+- For major_wins and priorities_next_week, put each item on its own line (newline separated)
+- For cmo_comment, extract any personal strategic observations or concerns the CMO mentioned
+- Keep KPI fields concise (one line each)
+- Make executive_summary a strong 2-3 sentence paragraph covering the week's highlights
+
+Return ONLY valid JSON with exactly these keys, nothing else:
+{
+  "executive_summary": "",
+  "obj1_planned": "",
+  "obj1_completed": "",
+  "obj1_status": "",
+  "obj2_planned": "",
+  "obj2_completed": "",
+  "obj2_status": "",
+  "pipeline_generated": "",
+  "lead_volume_cac": "",
+  "conversion_rates": "",
+  "campaign_performance": "",
+  "brand_engagement": "",
+  "email_activation": "",
+  "content_output": "",
+  "major_wins": "",
+  "initiative_name": "",
+  "initiative_progress": "",
+  "initiative_blockers": "",
+  "initiative_milestone": "",
+  "sales_enablement": "",
+  "product_marketing": "",
+  "partnerships_pr": "",
+  "ceo_decisions": "",
+  "priorities_next_week": "",
+  "cmo_comment": ""
+}"""
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+    message = client.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=2000,
+        system=system,
+        messages=[{"role": "user", "content": f"Weekly notes:\n{dump}"}],
+    )
+
+    raw = message.content[0].text.strip()
+    # Strip markdown code fences if present
+    if raw.startswith("```"):
+        raw = raw.split("```")[1]
+        if raw.startswith("json"):
+            raw = raw[4:]
+    raw = raw.strip()
 
     try:
-        expanded = expand_with_ai("Marketing Executive Summary", text)
-        return jsonify({"expanded": expanded})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        fields = json.loads(raw)
+    except Exception:
+        return jsonify({"error": "AI returned unexpected format. Try again."}), 500
+
+    # Merge in the header fields
+    fields["executive"] = executive
+    fields["week_ending"] = week_ending
+    fields["reporting_to"] = reporting_to or "CEO"
+
+    return jsonify(fields)
 
 
 @app.route("/api/download", methods=["POST"])
